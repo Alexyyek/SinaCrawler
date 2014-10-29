@@ -1,0 +1,38 @@
+dx = 0.001;
+Num = 100000;
+x = -4:dx:4;
+y = randn(Num,1);
+[n,xout] = hist(y,x);
+cdf = cumsum(n)/Num;
+plot(x,cdf,'b-','LineWidth',6); hold on
+plot(x,normcdf(x,0,1),'r-','LineWidth',2)
+legend('Empirical CDF via hist', 'Analytical CDF via normpdf',4);
+axis tight
+
+load lmhour.txt
+data=lmhour;
+step=0:1:24
+h=hist(data,step);
+cdf=cumsum(h)/(sum(h));
+plot(step,cdf,'b-','LineWidth',6)
+
+
+load hanhan.txt
+data=hanhan;
+step=0:1:24
+h=hist(user,step);
+cdf=cumsum(h)/(sum(h));
+plot(step,cdf,'b-','LineWidth',6)
+
+load normalUserTime.txt;
+>> load lmhour.txt;
+>> vip=lmhour;
+>> user=normalUserTime;
+>> step=0:100:2000;
+>> h1=hist(vip,step);
+>> h2=hist(user,step);
+>> cdf1=cumsum(h1)/(sum(h1));
+>> cdf2=cumsum(h2)/(sum(h2));
+>> plot(step,cdf1,'r','LineWidth',6),hold on
+>> plot(step,cdf2,'b','LineWidth',6)
+>> xlabel('day'),ylabel('CDF'),title('the CDF of different user group')
