@@ -7,6 +7,6 @@ public class Lancer {
 		GetCommentById gById = new GetCommentById();
 //		String UserID = "1314637182";
 //		gById.getStatusMid();
-		gById.getSpamTime();
-	}
+		gById.getBigLiar();
+		}
 }

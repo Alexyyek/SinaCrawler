@@ -42,33 +42,58 @@ public class getSpamFromCommunity {
 		}
 		bReader.close();
 	}
-
+	
 	public void getSpamerName(String name) {
 		String access_token = "2.00jrobWBe3dgkC4b30b8e7d358ktQB";
-		Friendships fm = new Friendships();
-		fm.client.setToken(access_token);
-		try {
-			UserWapper userWapper = fm.getFollowersByName(name);
-			long count = userWapper.getTotalNumber();
-			System.out.println(userWapper.getTotalNumber());
-		} catch (WeiboException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-//		Users um = new Users();
-//		um.client.setToken(access_token);
+//		Friendships fm = new Friendships();
+//		fm.client.setToken(access_token);
 //		try {
-//			User user = um.showUserByScreenName(name);
-//			getDataFromUser(user);
-//		} catch (WeiboException e) {
+//			UserWapper userWapper = fm.getFollowersByName(name);
+//			long count = userWapper.getTotalNumber();
+//			System.out.println(userWapper.getTotalNumber());
+//		} catch (WeiboException e1) {
 //			// TODO Auto-generated catch block
-//			e.printStackTrace();
+//			e1.printStackTrace();
 //		}
+		Users um = new Users();
+		um.client.setToken(access_token);
+		try {
+			User user = um.showUserByScreenName(name);
+			getDataFromUser(user);
+		} catch (WeiboException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
+	
+	public void getUidFromLocal()throws IOException{
+		InputStreamReader iReader = new InputStreamReader(new FileInputStream(new File(path)));
+		BufferedReader bReader = new BufferedReader(iReader);
+		String line;
+		while((line=bReader.readLine())!=null){
+			getSpamId(line);
+		}
+		bReader.close();
+	}
+
+	public void getSpamId(String id){
+		String access_token = "2.00jrobWBe3dgkC4b30b8e7d358ktQB";
+		Users um = new Users();
+		um.client.setToken(access_token);
+		try {
+			User user = um.showUserById(id);
+			getDataFromUser(user);
+		} catch (WeiboException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 
 	public User getDataFromUser(User user) throws WeiboException {
 		UserData uData = new UserData();
 		uData.setID(Long.parseLong(user.getId()));
+		uData.setGender(user.getGender());
 		uData.setScreenName(user.getScreenName());
 		uData.setLocation(user.getLocation());
 		uData.setDescription(user.getDescription());
@@ -88,6 +113,7 @@ public class getSpamFromCommunity {
 		DBObject object = new BasicDBObject();
 		object.put("ID", uData.getID());
 		object.put("Name", uData.getScreenName());
+		object.put("Gender", uData.getGender());
 		object.put("Location", uData.getLocation());
 		object.put("Description", uData.getDescription());
 		object.put("FollowersCount", uData.getFollowersCount());

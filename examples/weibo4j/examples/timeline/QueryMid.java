@@ -8,8 +8,8 @@ import weibo4j.org.json.JSONObject;
 public class QueryMid {
 
 	public static void main(String[] args) {
-		String access_token = args[0];
-		String id =args[1];
+		String access_token = "2.00jrobWBe3dgkC4b30b8e7d358ktQB";
+		String id ="3768594901295237";
 		Timeline tm = new Timeline();
 		tm.client.setToken(access_token);
 		try {

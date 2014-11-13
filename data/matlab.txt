@@ -36,3 +36,14 @@ load normalUserTime.txt;
 >> plot(step,cdf1,'r','LineWidth',6),hold on
 >> plot(step,cdf2,'b','LineWidth',6)
 >> xlabel('day'),ylabel('CDF'),title('the CDF of different user group')
+
+pdf：
+step=1:10000:1000000;
+hist=hist(data,step);
+>> pdf=hist/(10000*sum(hist));
+
+平滑
+a = 1:1:6;  %横坐标
+b = [8.0 9.0 10.0 15.0 35.0 40.0]; %纵坐标
+values = spcrv([[a(1) a a(end)];[b(1) b b(end)]],3);
+plot(values(1,:),values(2,:), 'g');

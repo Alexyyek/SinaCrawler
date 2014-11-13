@@ -31,9 +31,9 @@ public class GetCommentById {
 	private final static String dbName = "AlexYoung";
 	private final static String username = "ittcdb";
 	private final static String password = "ittc706706";
-	private final static String collectionName = "spamer";
+	private final static String collectionName = "SpamerCommunity";
 	private static DBCollection statusCollection;
-	private static String pathname = "./data/spamerTime.txt";
+	private static String pathname = "./data/bigLiar.txt";
 
 	public GetCommentById() throws UnknownHostException {
 		this.statusCollection = MongoConnection.getConnection(host, dbName,
@@ -58,18 +58,59 @@ public class GetCommentById {
 				Date reviewer_date = c.getCreatedAt();
 				long diff = (reviewer_date.getTime() - author_date.getTime()) / 3600000;
 				long now = diff - 8;
-				print(now);
+//				print(now);
 			}
 		}
-		// System.out.println(comment.getTotalNumber());
-		// System.out.println(comment.getNextCursor());
-		// System.out.println(comment.getNextCursor());
-		// System.out.println(comment.getHasvisible());
-
 	}
 
-	public void getRepostRatio(){
-		
+	public void getBigLiar()throws IOException{
+		DBObject dbObject = new BasicDBObject();
+		DBObject query = new BasicDBObject();
+		dbObject.put("FollowersCount", true);
+		dbObject.put("Name", true);
+		DBCursor cursor = statusCollection.find(query, dbObject);
+		while(cursor.hasNext()){
+			String info = cursor.next().toString();
+			JSONObject object = JSONObject.fromObject(info);
+			String count = object.optString("FollowersCount");
+			if (Integer.parseInt(count)>1000000) {
+				String name = object.optString("Name");
+				print(name);
+			}
+		}
+	}
+	
+	public void getSpamUid() throws IOException{
+		DBObject dbObject = new BasicDBObject();
+		DBObject query = new BasicDBObject();
+		dbObject.put("FollowersCount", true);
+		DBCursor cursor = statusCollection.find(query, dbObject);
+		while(cursor.hasNext()){
+			String info = cursor.next().toString();
+			JSONObject object = JSONObject.fromObject(info);
+			String uid = object.optString("FollowersCount");
+			print(uid);
+		}
+	}
+	
+	public void getSpamGender()throws IOException{
+		int male=0;int female=0;
+		DBObject object = new BasicDBObject();
+		DBObject query = new BasicDBObject();
+		object.put("Gender", true);
+		DBCursor cursor = statusCollection.find(query, object);
+		while(cursor.hasNext()){
+			String info = cursor.next().toString();
+			JSONObject jsonObject = JSONObject.fromObject(info);
+			String gender = jsonObject.optString("Gender");
+			if (gender.equals("m")) {
+				male++;
+			}else if(gender.equals("f")){
+				female++;
+			}
+		}
+		System.out.println("male" + male);
+		System.out.println("female" + female);
 	}
 	
 	public void getStatusMid() throws IOException, Exception {
@@ -127,11 +168,11 @@ public class GetCommentById {
 					+ time.optString("$date").substring(11, 19));
 			Date now = new Date();
 			long diff = (now.getTime() - register.getTime()) /3600000 / 24; 
-			print(diff);
+//			print(diff);
 		}
 	}
 
-	public void print(Long data) throws IOException {
+	public void print(String data) throws IOException {
 		FileWriter writer = new FileWriter(new File(pathname), true);
 		BufferedWriter bWriter = new BufferedWriter(writer);
 		bWriter.append(data + "\r\n");

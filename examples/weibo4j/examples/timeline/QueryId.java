@@ -9,7 +9,7 @@ public class QueryId {
 
 	public static void main(String[] args) {
 		String access_token = "2.00jrobWBe3dgkC4b30b8e7d358ktQB";
-		String mid =  "BrHoZtlb1";
+		String mid =  "BsMsW5qWV";
 		Timeline tm = new Timeline();
 		tm.client.setToken(access_token);
 		try {

@@ -18,7 +18,11 @@ import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
-
+/**
+ * 从名人评论ID内获取评论用户UID，利用规则筛选spam用户
+ * @author AlexYoung
+ *
+ */
 public class getSpamUser {
 
 	private final static String host = "10.108.192.165";
@@ -33,7 +37,7 @@ public class getSpamUser {
 		this.statusCollection = getMongoDBCollection.getMongoDBColl(host,
 				dbName, username, password, collectionName);
 	}
-
+	
 	public void getSpam(String weiboId) throws WeiboException {
 		String access_token = "2.00jrobWBe3dgkC4b30b8e7d358ktQB";
 		Comments cm = new Comments();
